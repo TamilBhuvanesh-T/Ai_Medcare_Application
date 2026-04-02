@@ -242,7 +242,8 @@ def normalize_appointments(details):
     if isinstance(legacy, dict) and legacy:
         legacy_token = legacy.get("token", details.get("token"))
         legacy_status = legacy.get("status", details.get("status", "waiting"))
-        legacy_doctor = legacy.get("doctor", details.get("doctor", "Doctor not assigned"))
+        legacy_doctor = legacy.get(
+            "doctor", details.get("doctor", "Doctor not assigned"))
         normalized_legacy = {
             "date": legacy.get("date", ""),
             "time": legacy.get("time", ""),
@@ -283,7 +284,8 @@ def normalize_emotion(payload):
     if isinstance(latest, dict):
         latest_emotion = latest.get("emotion", "Unknown")
         latest_risk = latest.get("depression_risk", "Not captured")
-        latest_message = latest.get("message") or latest.get("mood") or "No recent support note"
+        latest_message = latest.get("message") or latest.get(
+            "mood") or "No recent support note"
         latest_time = latest.get("time", payload.get("time", "-"))
     else:
         latest_emotion = payload.get("emotion", "Unknown")
@@ -303,7 +305,7 @@ def normalize_emotion(payload):
                 "message": item.get("message") or item.get("mood") or "",
             }
         )
-
+# hello buddy git check
     return {
         "emotion": latest_emotion,
         "depression_risk": latest_risk,
@@ -406,10 +408,14 @@ with tab1:
     if not visible_patients:
         st.warning("No patient data available yet.")
     else:
-        high = sum(1 for item in visible_patients if item["risk_level"] == "High")
-        moderate = sum(1 for item in visible_patients if item["risk_level"] == "Moderate")
-        low = sum(1 for item in visible_patients if item["risk_level"] == "Low")
-        booked = sum(len(item["active_appointments"]) for item in visible_patients)
+        high = sum(
+            1 for item in visible_patients if item["risk_level"] == "High")
+        moderate = sum(
+            1 for item in visible_patients if item["risk_level"] == "Moderate")
+        low = sum(
+            1 for item in visible_patients if item["risk_level"] == "Low")
+        booked = sum(len(item["active_appointments"])
+                     for item in visible_patients)
         watchlist = sum(
             1
             for item in visible_patients
@@ -452,7 +458,8 @@ with tab1:
         col_left, col_right = st.columns([2.2, 1])
 
         with col_left:
-            st.markdown('<div class="section-title">Patient Queue And Appointment Reflection</div>', unsafe_allow_html=True)
+            st.markdown(
+                '<div class="section-title">Patient Queue And Appointment Reflection</div>', unsafe_allow_html=True)
             for patient in visible_patients:
                 next_item = patient["next_appointment"] or {}
                 risk_level = patient["risk_level"]
@@ -515,7 +522,8 @@ with tab1:
                                     "Status": item.get("status", "waiting").title(),
                                 }
                             )
-                        st.dataframe(pd.DataFrame(appointment_rows), width="stretch", hide_index=True)
+                        st.dataframe(pd.DataFrame(appointment_rows),
+                                     width="stretch", hide_index=True)
 
                     st.caption("Hospital desk action")
                     with st.form(f"status_form_{patient['phone']}"):
@@ -530,7 +538,8 @@ with tab1:
                         ]
                         selected_token = st.selectbox(
                             "Mark appointment as done",
-                            token_options if token_options else ["No active appointments"],
+                            token_options if token_options else [
+                                "No active appointments"],
                             disabled=not token_options,
                             key=f"token_{patient['phone']}",
                         )
@@ -542,14 +551,16 @@ with tab1:
                                 "completed",
                             )
                             if ok:
-                                st.toast(f"Hospital desk marked token {token_value} as completed.")
+                                st.toast(
+                                    f"Hospital desk marked token {token_value} as completed.")
                                 st.rerun()
                             else:
                                 st.warning(result)
 
         with col_right:
-            st.markdown('<div class="section-title">Operational Snapshot</div>', unsafe_allow_html=True)
-            
+            st.markdown(
+                '<div class="section-title">Operational Snapshot</div>', unsafe_allow_html=True)
+
             st.markdown(
                 """
 <div class="tiny-note">
@@ -571,15 +582,18 @@ and Med Buddy emotional summaries with timestamped history.
                 st.write("")
                 st.caption("Doctor Allocation")
                 doctor_df = pd.DataFrame(
-                    [{"Doctor": doctor, "Appointments": count} for doctor, count in doctor_counts.items()]
+                    [{"Doctor": doctor, "Appointments": count}
+                        for doctor, count in doctor_counts.items()]
                 ).sort_values("Appointments", ascending=False)
                 st.dataframe(doctor_df, width="stretch", hide_index=True)
             else:
-                st.info("Doctor assignment will appear here once appointments are booked.")
+                st.info(
+                    "Doctor assignment will appear here once appointments are booked.")
 
             st.write("")
             st.caption("Low-Risk Count")
-            st.progress(min(low / max(len(visible_patients), 1), 1.0), text=f"{low} of {len(visible_patients)} active patients currently low risk")
+            st.progress(min(low / max(len(visible_patients), 1), 1.0),
+                        text=f"{low} of {len(visible_patients)} active patients currently low risk")
             st.markdown('</div>', unsafe_allow_html=True)
 
 with tab2:
@@ -588,33 +602,42 @@ with tab2:
     else:
         phone_options = [item["phone"] for item in patients]
         selected_phone = st.selectbox("Select Patient", phone_options)
-        patient = next(item for item in patients if item["phone"] == selected_phone)
+        patient = next(
+            item for item in patients if item["phone"] == selected_phone)
         emotion_payload = patient["emotion_payload"]
         next_item = patient["next_appointment"] or {}
 
         left, right = st.columns([1, 2])
         with left:
-            
+
             st.markdown("### Patient Summary")
             st.write(f"**Name:** {patient['name']}")
             st.write(f"**Patient ID:** {patient['patient_id']}")
             st.write(f"**Phone:** {patient['phone']}")
             st.write(f"**Risk level:** {patient['risk_level']}")
             st.write(f"**Risk score:** {patient['risk_score']}")
-            st.write(f"**Next appointment:** {next_item.get('date', 'Not scheduled')}")
-            st.write(f"**Appointment time:** {next_item.get('time', 'Not scheduled')}")
-            st.write(f"**Assigned doctor:** {next_item.get('doctor', 'Doctor not assigned')}")
-            st.write(f"**Latest emotional label:** {emotion_payload['emotion']}")
-            st.write(f"**Depression risk signal:** {emotion_payload['depression_risk']}")
+            st.write(
+                f"**Next appointment:** {next_item.get('date', 'Not scheduled')}")
+            st.write(
+                f"**Appointment time:** {next_item.get('time', 'Not scheduled')}")
+            st.write(
+                f"**Assigned doctor:** {next_item.get('doctor', 'Doctor not assigned')}")
+            st.write(
+                f"**Latest emotional label:** {emotion_payload['emotion']}")
+            st.write(
+                f"**Depression risk signal:** {emotion_payload['depression_risk']}")
             st.write(f"**Last emotional update:** {emotion_payload['time']}")
             st.caption(emotion_payload["message"])
 
             if patient["risk_level"] == "High" or emotion_payload["depression_risk"] == "High":
-                st.error("Immediate review is recommended for this patient based on the latest stored signals.")
+                st.error(
+                    "Immediate review is recommended for this patient based on the latest stored signals.")
             elif emotion_payload["emotion"] in {"Concerned", "Anxious", "Distressed"}:
-                st.warning("Supportive follow-up may be useful based on the recent emotional trend.")
+                st.warning(
+                    "Supportive follow-up may be useful based on the recent emotional trend.")
             else:
-                st.success("Current emotional signal does not indicate acute escalation.")
+                st.success(
+                    "Current emotional signal does not indicate acute escalation.")
             st.markdown('</div>', unsafe_allow_html=True)
 
         with right:
@@ -627,10 +650,13 @@ with tab2:
                 df["score"] = df["emotion"].apply(emotion_score)
 
                 fig, ax = plt.subplots(figsize=(10, 4))
-                ax.plot(df["time"], df["score"], color="#1976d2", linewidth=2.4, marker="o", markersize=6)
-                ax.fill_between(df["time"], df["score"], 0, color="#90caf9", alpha=0.22)
+                ax.plot(df["time"], df["score"], color="#1976d2",
+                        linewidth=2.4, marker="o", markersize=6)
+                ax.fill_between(df["time"], df["score"], 0,
+                                color="#90caf9", alpha=0.22)
                 ax.set_yticks([1, 2, 3, 4, 5])
-                ax.set_yticklabels(["Distressed", "Concerned", "Neutral", "Calm", "Happy"])
+                ax.set_yticklabels(
+                    ["Distressed", "Concerned", "Neutral", "Calm", "Happy"])
                 ax.set_xlabel("Recorded Time")
                 ax.set_ylabel("Emotional State")
                 ax.grid(alpha=0.2)
@@ -638,13 +664,18 @@ with tab2:
                 st.pyplot(fig, width="stretch")
 
                 if (df["score"] <= 2).any():
-                    st.error("At least one emotionally sensitive check-in was detected in the recent history.")
+                    st.error(
+                        "At least one emotionally sensitive check-in was detected in the recent history.")
                 else:
-                    st.info("Recent emotional history has stayed in the neutral-to-positive range.")
+                    st.info(
+                        "Recent emotional history has stayed in the neutral-to-positive range.")
 
-                trend_rows = df[["time", "emotion", "depression_risk", "message"]].copy()
-                trend_rows["time"] = trend_rows["time"].dt.strftime("%Y-%m-%d %I:%M %p")
-                trend_rows.columns = ["Time", "Emotion", "Depression Risk", "Captured Note"]
+                trend_rows = df[["time", "emotion",
+                                 "depression_risk", "message"]].copy()
+                trend_rows["time"] = trend_rows["time"].dt.strftime(
+                    "%Y-%m-%d %I:%M %p")
+                trend_rows.columns = ["Time", "Emotion",
+                                      "Depression Risk", "Captured Note"]
                 with st.expander("View emotional history details", expanded=False):
                     st.dataframe(trend_rows, width="stretch", hide_index=True)
             else:
