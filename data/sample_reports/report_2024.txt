@@ -1,0 +1,13 @@
+Patient Name: John Doe
+Age: 46
+Date: 15-01-2024
+
+Test Name: Total Cholesterol
+Result: 240 mg/dL
+Reference Range: < 200 mg/dL
+
+Test Name: Fasting Blood Glucose
+Result: 135 mg/dL
+Reference Range: 70 - 100 mg/dL
+
+

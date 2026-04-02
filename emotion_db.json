@@ -1,0 +1,188 @@
+{
+    "7904354309": {
+        "emotion": "Anxious",
+        "mood": "Hi there! You seem to be feeling anxious with brief context only describing how you're feeling",
+        "time": "2026-03-23 22:15:42",
+        "history": [
+            {
+                "emotion": "Neutral",
+                "mood": "Hi, User is feeling neutral with brief context only describing how user feeling",
+                "time": "2026-03-23 18:54:32"
+            },
+            {
+                "emotion": "Neutral",
+                "mood": "The user is feeling calm with a brief description of how they are feeling",
+                "time": "2026-03-23 18:55:46"
+            },
+            {
+                "emotion": "Good Happy",
+                "mood": "I hope the next few days will bring a lot of joy",
+                "time": "2026-03-23 18:57:05"
+            },
+            {
+                "emotion": "Good Happy",
+                "mood": "I understand that you are feeling happy",
+                "time": "2026-03-23 18:57:57"
+            },
+            {
+                "emotion": "Anxious",
+                "mood": "However, from a more general perspective, it appears the user is seeking advice on how to achieve happiness",
+                "time": "2026-03-23 19:02:16"
+            },
+            {
+                "emotion": "Neutral",
+                "mood": "You are feeling a bit down right now, but there are many things you can do to feel happier",
+                "time": "2026-03-23 19:04:27"
+            },
+            {
+                "emotion": "Good Happy",
+                "mood": "The user is feeling positive with brief context only describing how the user feels",
+                "time": "2026-03-23 19:05:58"
+            },
+            {
+                "emotion": "Anxious",
+                "mood": "User is feeling Distressed and needs immediate help",
+                "time": "2026-03-23 19:06:33"
+            },
+            {
+                "emotion": "Good Happy",
+                "mood": "The recommended steps are simple: take time for yourself, do something that makes you smile or laugh, connect with friends and family, pursue activities that make you feel fulfilled, and focus on the positive aspects of life",
+                "time": "2026-03-23 19:10:22"
+            },
+            {
+                "emotion": "Good Happy",
+                "mood": "It's nice to hear that you're having a great day",
+                "time": "2026-03-23 19:18:25"
+            },
+            {
+                "emotion": "Anxious",
+                "mood": "If there's anything else you'd like to talk about, please don't hesitate to let me know",
+                "time": "2026-03-23 19:29:05"
+            },
+            {
+                "emotion": "Neutral",
+                "mood": "Is there anything I can help with?",
+                "time": "2026-03-23 19:35:26"
+            },
+            {
+                "emotion": "Neutral",
+                "mood": "User message:Hi can u render insinde",
+                "time": "2026-03-23 19:37:34"
+            },
+            {
+                "emotion": "Good Happy",
+                "mood": "The best way to be happy is to focus on things in your life that make you smile",
+                "time": "2026-03-23 22:09:23"
+            },
+            {
+                "emotion": "Anxious",
+                "mood": "User is feeling Distressed and needs immediate help",
+                "time": "2026-03-23 22:10:02"
+            },
+            {
+                "emotion": "Neutral",
+                "mood": "\u26a0\ufe0f AI response timed out",
+                "time": "2026-03-23 22:15:00"
+            },
+            {
+                "emotion": "Anxious",
+                "mood": "Hi there! You seem to be feeling anxious with brief context only describing how you're feeling",
+                "time": "2026-03-23 22:15:42"
+            }
+        ]
+    },
+    "7777777777": {
+        "emotion": "Anxious",
+        "mood": "User is feeling Distressed and needs immediate help | Depression risk: High",
+        "time": "2026-04-02 03:35:01",
+        "history": [
+            {
+                "emotion": "Neutral",
+                "mood": "\u26a0\ufe0f AI response timed out",
+                "time": "2026-03-23 23:03:33"
+            },
+            {
+                "emotion": "Neutral",
+                "mood": "**Cardiovascular Risk Assessment:**",
+                "time": "2026-04-02 03:24:37"
+            },
+            {
+                "emotion": "Neutral",
+                "mood": "User is feeling Neutral and asking for guidance | Depression risk: Low",
+                "time": "2026-04-02 03:33:40"
+            },
+            {
+                "emotion": "Neutral",
+                "mood": "User is feeling Neutral and asking for guidance | Depression risk: Low",
+                "time": "2026-04-02 03:34:27"
+            },
+            {
+                "emotion": "Anxious",
+                "mood": "User is feeling Distressed and needs immediate help | Depression risk: High",
+                "time": "2026-04-02 03:35:01"
+            },
+            {
+                "source": "med_buddy",
+                "message": "suicided feeling",
+                "emotion": "Concerned",
+                "depression_risk": "High",
+                "time": "2026-04-02 04:56:50"
+            },
+            {
+                "source": "med_buddy",
+                "message": "hi happy",
+                "emotion": "Positive",
+                "depression_risk": "Low",
+                "time": "2026-04-02 06:03:59"
+            },
+            {
+                "source": "med_buddy",
+                "message": "hi how to be happy",
+                "emotion": "Positive",
+                "depression_risk": "Low",
+                "time": "2026-04-02 06:04:25"
+            },
+            {
+                "source": "med_buddy",
+                "message": "suicidal thought..!!",
+                "emotion": "Concerned",
+                "depression_risk": "Low",
+                "time": "2026-04-02 06:04:55"
+            }
+        ],
+        "latest": {
+            "source": "med_buddy",
+            "message": "suicidal thought..!!",
+            "emotion": "Concerned",
+            "depression_risk": "Low",
+            "time": "2026-04-02 06:04:55"
+        }
+    },
+    "9999999999": {
+        "emotion": "Anxious",
+        "mood": "User message:I am so stressed and anxious about my work",
+        "time": "2026-03-23 23:37:01",
+        "history": [
+            {
+                "emotion": "Good Happy",
+                "mood": "Hi there! I understand that you're not feeling your best today, but it's great that you're reaching out for help",
+                "time": "2026-03-23 23:20:28"
+            },
+            {
+                "emotion": "Anxious",
+                "mood": "User is feeling Distressed and needs immediate help",
+                "time": "2026-03-23 23:21:02"
+            },
+            {
+                "emotion": "Good Happy",
+                "mood": "I'm happy to provide assistance in any way I can!",
+                "time": "2026-03-23 23:36:26"
+            },
+            {
+                "emotion": "Anxious",
+                "mood": "User message:I am so stressed and anxious about my work",
+                "time": "2026-03-23 23:37:01"
+            }
+        ]
+    }
+}

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Register</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="login-wrapper">
+    
+    <div class="login-card">
+        <h2>📝 Create Account</h2>
+        <p class="subtitle">Join us and get started</p>
+
+        {% if error %}
+        <div class="error-box">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST">
+            
+            <div class="input-group">
+                <input type="text" name="phone" required pattern="[0-9]{10}" maxlength="10">
+                <label>Phone Number</label>
+            </div>
+
+            <div class="input-group">
+                <input type="email" name="email" required>
+                <label>Email Address</label>
+            </div>
+
+            <div class="input-group">
+                <input type="password" name="password" required pattern="[0-9]{4}" maxlength="4">
+                <label>4 Digit Passcode</label>
+            </div>
+
+            <button type="submit">Register</button>
+        </form>
+
+        <div class="footer">
+            <a href="/">Already have an account? Login</a>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

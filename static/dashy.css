@@ -1,0 +1,74 @@
+/* BACKGROUND */
+body {
+    background: linear-gradient(135deg, #0F4C5C, #1FA2A6);
+}
+
+/* WRAPPER */
+.dashboard-wrapper {
+    padding: 20px;
+}
+
+/* TOP BAR */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.status {
+    font-size: 14px;
+    color: #00ffcc;
+}
+
+/* GRID */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* CARD */
+.card {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(15px);
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+/* PROGRESS */
+.progress-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: conic-gradient(#00ffcc 0%, #444 0%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 15px auto;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.risk-text {
+    text-align: center;
+    opacity: 0.8;
+}
+
+/* FILE UPLOAD */
+.file-upload {
+    display: block;
+    padding: 12px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.2);
+    text-align: center;
+    cursor: pointer;
+}
+
+/* BUTTON */
+.dashboard-btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    color: white;
+}

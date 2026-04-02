@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+{% block title %}Patient Dashboard | VASK MedCare{% endblock %}
+{% block content %}
+<header class="topbar">
+    <div>
+        <p class="eyebrow">Patient App</p>
+        <h2>{{ user.name }}</h2>
+    </div>
+    <div class="topbar-actions">
+        <span class="badge">{{ user.phone }}</span>
+        <a href="{{ url_for('logout') }}" class="btn btn-secondary">Logout</a>
+    </div>
+</header>
+
+<nav class="tabs">
+    <a class="tab {% if active_tab == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard', tab='dashboard') }}">Dashboard</a>
+    <a class="tab {% if active_tab == 'assistant' %}active{% endif %}" href="{{ url_for('dashboard', tab='assistant') }}">AI Assistant</a>
+    <a class="tab {% if active_tab == 'care' %}active{% endif %}" href="{{ url_for('dashboard', tab='care') }}">My Care</a>
+</nav>
+
+{% if active_tab == 'dashboard' %}
+<section class="grid two-up">
+    <article class="panel">
+        <div class="section-title">
+            <p class="eyebrow">Medical Reports</p>
+            <h3>Upload and analyze</h3>
+        </div>
+        <form action="{{ url_for('upload_report') }}" method="post" enctype="multipart/form-data" class="form-grid">
+            <label>
+                <span>Upload PDF</span>
+                <input type="file" name="report" accept=".pdf">
+            </label>
+            <button type="submit" class="btn btn-primary">Upload report</button>
+        </form>
+        <form action="{{ url_for('run_analysis') }}" method="post">
+            <button type="submit" class="btn btn-secondary">Run Medical AI Analysis</button>
+        </form>
+        {% if report %}
+        <div class="soft-card">
+            <strong>Latest report:</strong> {{ report.filename }}<br>
+            <span class="muted">Uploaded {{ report.uploaded_at }}</span>
+        </div>
+        {% else %}
+        <p class="muted">Upload a PDF report to begin.</p>
+        {% endif %}
+    </article>
+
+    <article class="panel">
+        <div class="section-title">
+            <p class="eyebrow">Risk Assessment</p>
+            <h3>Decision center</h3>
+        </div>
+        {% if report %}
+        <div class="metric-grid">
+            <div class="metric-card">
+                <span>Risk Level</span>
+                <strong>{{ report.risk_level }}</strong>
+            </div>
+            <div class="metric-card">
+                <span>Risk Score</span>
+                <strong>{{ report.risk_score }}/100</strong>
+            </div>
+        </div>
+        <p class="muted">{{ report.summary }}</p>
+        <button type="button" class="btn btn-secondary" onclick="speakSummary()">Listen to Summary</button>
+        <script>window.currentVoiceText = {{ (report.voice_text or report.summary)|tojson }};</script>
+        {% else %}
+        <p class="muted">Analysis results will appear here after processing.</p>
+        {% endif %}
+    </article>
+
+    <article class="panel">
+        <div class="section-title">
+            <p class="eyebrow">AI Summary</p>
+            <h3>Findings overview</h3>
+        </div>
+        {% if report %}
+        <p>{{ report.summary }}</p>
+        <p class="muted">{{ report.narrative }}</p>
+        {% else %}
+        <p class="muted">No analyzed report yet.</p>
+        {% endif %}
+    </article>
+
+    <article class="panel">
+        <div class="section-title">
+            <p class="eyebrow">Suggested Activities</p>
+            <h3>Dynamic guidance</h3>
+        </div>
+        {% if report and report.recommendations %}
+            {% for item in report.recommendations %}
+            <div class="list-card">{{ item }}</div>
+            {% endfor %}
+        {% else %}
+        <p class="muted">Recommendations will adapt once report analysis completes.</p>
+        {% endif %}
+    </article>
+</section>
+
+{% if report and report.parameters %}
+<section class="panel">
+    <div class="section-title">
+        <p class="eyebrow">Test Parameters</p>
+        <h3>Extracted values and plots</h3>
+    </div>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Value</th>
+                    <th>Range</th>
+                    <th>Status</th>
+                    <th>Trend</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for param in report.parameters %}
+                {% set trend = report.trends.get(param.name, {}) %}
+                <tr>
+                    <td>{{ param.label }}</td>
+                    <td>{{ param.value }} {{ param.unit }}</td>
+                    <td>{{ param.reference_range }}</td>
+                    <td><span class="badge badge-{{ param.status|lower }}">{{ param.status }}</span></td>
+                    <td>{{ trend.get('values', [])|trend_svg|safe }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endif %}
+{% endif %}
+
+{% if active_tab == 'assistant' %}
+<section class="grid assistant-layout">
+    <article class="panel">
+        <div class="section-title">
+            <p class="eyebrow">Validated Chat</p>
+            <h3>Ask about your report</h3>
+        </div>
+        {% if guidance_text %}
+        <div class="soft-card">
+            <strong>Doctor guidance active:</strong> {{ guidance_text }}
+        </div>
+        {% endif %}
+        <form method="post" action="{{ url_for('chat') }}" class="form-grid">
+            <label>
+                <span>Your message</span>
+                <textarea name="message" rows="4" placeholder="Ask what changed, what needs attention, or what the report means"></textarea>
+            </label>
+            <button type="submit" class="btn btn-primary">Send to assistant</button>
+        </form>
+        <div class="chat-stack">
+            {% for chat in chats %}
+            <div class="chat-item user">{{ chat.user_message }}</div>
+            <div class="chat-item bot">{{ chat.assistant_message }}</div>
+            {% endfor %}
+        </div>
+    </article>
+    <article class="panel">
+        <div class="section-title">
+            <p class="eyebrow">Emotion Timeline</p>
+            <h3>Mood swing tracking</h3>
+        </div>
+        {% for emotion in emotions %}
+        <div class="timeline-item">
+            <div>
+                <strong>{{ emotion.emotion }}</strong>
+                <p class="muted">{{ emotion.mood }}</p>
+            </div>
+            <div class="timeline-meta">
+                <span class="badge">{{ emotion.urgency }}</span>
+                <small>{{ emotion.created_at }}</small>
+            </div>
+        </div>
+        {% else %}
+        <p class="muted">Emotion history will appear after the first chat.</p>
+        {% endfor %}
+    </article>
+</section>
+{% endif %}
+
+{% if active_tab == 'care' %}
+<section class="grid two-up">
+    <article class="panel">
+        <div class="section-title">
+            <p class="eyebrow">Care Routing</p>
+            <h3>Department and doctor selection</h3>
+        </div>
+        {% if report %}
+        <div class="soft-card">
+            <strong>Recommended department:</strong> {{ department }}
+        </div>
+        <form method="post" action="{{ url_for('book_appointment') }}" class="form-grid">
+            <label>
+                <span>Department</span>
+                <input type="text" name="department" value="{{ department }}">
+            </label>
+            <label>
+                <span>Doctor</span>
+                <select name="doctor_id">
+                    <option value="">Select doctor</option>
+                    {% for doctor in doctors %}
+                    <option value="{{ doctor.id }}">{{ doctor.name }} - {{ doctor.department }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <label>
+                <span>Date</span>
+                <input type="date" name="appointment_date">
+            </label>
+            <label>
+                <span>Time</span>
+                <select name="appointment_time">
+                    <option>10:00 AM</option>
+                    <option>12:00 PM</option>
+                    <option>04:00 PM</option>
+                    <option>06:00 PM</option>
+                </select>
+            </label>
+            <button type="submit" class="btn btn-primary">Book appointment</button>
+        </form>
+        {% else %}
+        <p class="muted">Run analysis to receive a department recommendation first.</p>
+        {% endif %}
+    </article>
+    <article class="panel">
+        <div class="section-title">
+            <p class="eyebrow">Hospital Workflow</p>
+            <h3>Appointments and tokens</h3>
+        </div>
+        {% for item in appointments %}
+        <div class="timeline-item">
+            <div>
+                <strong>{{ item.department }} with {{ item.doctor_name }}</strong>
+                <p class="muted">{{ item.appointment_date }} at {{ item.appointment_time }}</p>
+            </div>
+            <div class="timeline-meta">
+                <span class="badge">Token {{ item.token }}</span>
+                <small>{{ item.status }}</small>
+            </div>
+        </div>
+        {% else %}
+        <p class="muted">No appointments booked yet.</p>
+        {% endfor %}
+    </article>
+</section>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script>
+function speakSummary() {
+    if (!window.currentVoiceText || !window.speechSynthesis) return;
+    const utterance = new SpeechSynthesisUtterance(window.currentVoiceText);
+    utterance.rate = 1;
+    utterance.pitch = 1;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+}
+</script>
+{% endblock %}

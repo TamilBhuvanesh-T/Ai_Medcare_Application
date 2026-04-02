@@ -1,0 +1,10 @@
+Patient Name: John Doe
+Age: 46
+Gender: Male
+Report Date: 15-01-2024
+
+Test Name        Result   Unit        Reference Range
+-----------------------------------------------------
+Hemoglobin       11.2     g/dL        13.0 - 17.0
+WBC Count        8500     cells/uL    4000 - 11000
+Platelet Count  180000   cells/uL    150000 - 450000

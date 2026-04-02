@@ -1,0 +1,14 @@
+Flask
+streamlit
+pandas
+numpy
+scikit-learn
+sentence-transformers
+faiss-cpu
+PyMuPDF
+pdfplumber
+matplotlib
+reportlab
+PyPDF2
+pytesseract
+pdf2image

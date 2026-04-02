@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}VASK MedCare{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='vask.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <div class="shell">
+        <aside class="brand-panel">
+            <div>
+                <p class="eyebrow">Validated AI Healthcare</p>
+                <h1>VASK MedCare</h1>
+                <p class="lede">Medical analysis, emotion tracking, and hospital workflow in one connected platform.</p>
+            </div>
+            <div class="brand-card">
+                <p>ICPa keeps the system grounded in patient context, safety rules, and clinician guidance.</p>
+            </div>
+        </aside>
+        <main class="main-panel">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-stack">
+                        {% for category, message in messages %}
+                            <div class="flash flash-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

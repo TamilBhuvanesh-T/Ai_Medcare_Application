@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard | VASK MedCare{% endblock %}
+{% block head %}
+<meta http-equiv="refresh" content="20">
+{% endblock %}
+{% block content %}
+<header class="topbar">
+    <div>
+        <p class="eyebrow">Hospital Admin App</p>
+        <h2>Operational Dashboard</h2>
+    </div>
+    <div class="topbar-actions">
+        <span class="badge">Auto-refresh 20s</span>
+        <a href="{{ url_for('logout') }}" class="btn btn-secondary">Logout</a>
+    </div>
+</header>
+
+<section class="metric-grid">
+    <div class="metric-card"><span>Total Patients</span><strong>{{ metrics.patients }}</strong></div>
+    <div class="metric-card"><span>High Risk</span><strong>{{ metrics.high_risk }}</strong></div>
+    <div class="metric-card"><span>Moderate Risk</span><strong>{{ metrics.moderate_risk }}</strong></div>
+    <div class="metric-card"><span>Distress Alerts</span><strong>{{ metrics.distress_alerts }}</strong></div>
+</section>
+
+<section class="grid admin-layout">
+    <article class="panel">
+        <div class="section-title">
+            <p class="eyebrow">Patient Monitor</p>
+            <h3>Latest patient state</h3>
+        </div>
+        {% for patient in patients %}
+        <a class="patient-row" href="{{ url_for('admin_dashboard', patient_id=patient.id) }}">
+            <div>
+                <strong>{{ patient.name }}</strong>
+                <p class="muted">{{ patient.phone }}</p>
+            </div>
+            <div class="timeline-meta">
+                <span class="badge badge-{{ (patient.risk_level or 'low')|lower }}">{{ patient.risk_level or 'Pending' }}</span>
+                <small>{{ patient.latest_emotion or 'No emotion data' }}</small>
+            </div>
+        </a>
+        {% else %}
+        <p class="muted">No patients registered yet.</p>
+        {% endfor %}
+    </article>
+
+    <article class="panel">
+        <div class="section-title">
+            <p class="eyebrow">Queue Management</p>
+            <h3>Doctor and token workflow</h3>
+        </div>
+        {% for item in appointments %}
+        <div class="queue-row">
+            <div>
+                <strong>#{{ item.token }} {{ item.patient_name }}</strong>
+                <p class="muted">{{ item.department }} · {{ item.doctor_name }}</p>
+            </div>
+            <form method="post" action="{{ url_for('update_appointment_status', appointment_id=item.id) }}" class="inline-form">
+                <select name="status">
+                    <option value="waiting" {% if item.status == 'waiting' %}selected{% endif %}>waiting</option>
+                    <option value="in progress" {% if item.status == 'in progress' %}selected{% endif %}>in progress</option>
+                    <option value="completed" {% if item.status == 'completed' %}selected{% endif %}>completed</option>
+                </select>
+                <button type="submit" class="btn btn-secondary">Update</button>
+            </form>
+        </div>
+        {% else %}
+        <p class="muted">No appointments in the queue.</p>
+        {% endfor %}
+    </article>
+</section>
+
+<section class="grid admin-layout">
+    <article class="panel">
+        <div class="section-title">
+            <p class="eyebrow">Recent Alerts</p>
+            <h3>Medical and mental health</h3>
+        </div>
+        {% for alert in alerts %}
+        <div class="timeline-item">
+            <div>
+                <strong>{{ alert.category|replace('_', ' ')|title }}</strong>
+                <p class="muted">{{ alert.message }}</p>
+            </div>
+            <div class="timeline-meta">
+                <span class="badge">{{ alert.severity }}</span>
+                <small>{{ alert.created_at }}</small>
+            </div>
+        </div>
+        {% else %}
+        <p class="muted">No alerts generated yet.</p>
+        {% endfor %}
+    </article>
+
+    <article class="panel">
+        <div class="section-title">
+            <p class="eyebrow">Patient Detail</p>
+            <h3>{% if patient_detail %}{{ patient_detail.name }}{% else %}Select a patient{% endif %}</h3>
+        </div>
+        {% if patient_detail %}
+        <div class="soft-card">
+            <strong>Phone:</strong> {{ patient_detail.phone }}<br>
+            <strong>Email:</strong> {{ patient_detail.email or 'Not provided' }}
+        </div>
+        {% if patient_detail.report %}
+        <div class="soft-card">
+            <strong>Risk:</strong> {{ patient_detail.report.risk_level }} ({{ patient_detail.report.risk_score }}/100)<br>
+            <strong>Summary:</strong> {{ patient_detail.report.summary }}
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Value</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for param in patient_detail.report.parameters %}
+                    <tr>
+                        <td>{{ param.label }}</td>
+                        <td>{{ param.value }} {{ param.unit }}</td>
+                        <td>{{ param.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+        <form method="post" action="{{ url_for('save_guidance', patient_id=patient_detail.id) }}" class="form-grid">
+            <label>
+                <span>Doctor</span>
+                <select name="doctor_id">
+                    {% for doctor in doctors %}
+                    <option value="{{ doctor.id }}" {% if patient_guidance and patient_guidance.doctor_id == doctor.id %}selected{% endif %}>{{ doctor.name }} - {{ doctor.department }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <label>
+                <span>Patient-specific AI guidance</span>
+                <textarea name="guidance" rows="4" placeholder="Add calmer tone, focus areas, or follow-up instructions">{{ patient_guidance.guidance if patient_guidance else '' }}</textarea>
+            </label>
+            <button type="submit" class="btn btn-primary">Save guidance</button>
+        </form>
+
+        <div class="section-title">
+            <p class="eyebrow">Emotion Timeline</p>
+            <h3>Mood swing view</h3>
+        </div>
+        {% for emotion in patient_emotions %}
+        <div class="timeline-item">
+            <div>
+                <strong>{{ emotion.emotion }}</strong>
+                <p class="muted">{{ emotion.mood }}</p>
+            </div>
+            <div class="timeline-meta">
+                <span class="badge">{{ emotion.urgency }}</span>
+                <small>{{ emotion.created_at }}</small>
+            </div>
+        </div>
+        {% else %}
+        <p class="muted">No emotion history yet.</p>
+        {% endfor %}
+
+        <div class="section-title">
+            <p class="eyebrow">Chat History</p>
+            <h3>Recent interactions</h3>
+        </div>
+        {% for chat in patient_messages %}
+        <div class="chat-item user">{{ chat.user_message }}</div>
+        <div class="chat-item bot">{{ chat.assistant_message }}</div>
+        {% else %}
+        <p class="muted">No chat activity yet.</p>
+        {% endfor %}
+        {% else %}
+        <p class="muted">Choose a patient from the left panel to review reports, guidance, and emotion tracking.</p>
+        {% endif %}
+    </article>
+</section>
+{% endblock %}

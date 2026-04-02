@@ -1,0 +1,27 @@
+/* GLOBAL */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+}
+
+/* BUTTON (generic base only) */
+button {
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* INPUT */
+input {
+    padding: 8px;
+    width: 100%;
+    border: none;
+    outline: none;
+}
+
+/* SMOOTH TRANSITION */
+input, button {
+    transition: all 0.3s ease;
+}

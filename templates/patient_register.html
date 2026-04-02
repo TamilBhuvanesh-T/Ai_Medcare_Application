@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Register | VASK MedCare{% endblock %}
+{% block content %}
+<section class="auth-card">
+    <div class="section-title">
+        <p class="eyebrow">Patient Registration</p>
+        <h2>Create account</h2>
+    </div>
+    <form method="post" class="form-grid">
+        <label>
+            <span>Name</span>
+            <input type="text" name="name" placeholder="Patient full name">
+        </label>
+        <label>
+            <span>Phone</span>
+            <input type="text" name="phone" placeholder="10 digit phone number">
+        </label>
+        <label>
+            <span>Email</span>
+            <input type="email" name="email" placeholder="Email for alerts">
+        </label>
+        <label>
+            <span>Password</span>
+            <input type="password" name="password" placeholder="Choose password">
+        </label>
+        <button type="submit" class="btn btn-primary">Create account</button>
+    </form>
+    <a href="{{ url_for('login') }}" class="text-link">Back to sign in</a>
+</section>
+{% endblock %}

@@ -1,0 +1,9 @@
+Patient Name: John Doe
+Age: 46
+Gender: Male
+Report Date: 15-01-2024
+
+Test Name                Result   Unit     Reference Range
+----------------------------------------------------------
+Fasting Blood Glucose    135      mg/dL    70 - 100
+HbA1c                    6.4      %        < 5.7

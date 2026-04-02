@@ -1,0 +1,11 @@
+Patient Name: John Doe
+Age: 46
+Gender: Male
+Report Date: 15-01-2024
+
+Test Name            Result   Unit     Reference Range
+-------------------------------------------------------
+Total Cholesterol    240      mg/dL    < 200
+LDL Cholesterol      165      mg/dL    < 100
+HDL Cholesterol      35       mg/dL    > 40
+Triglycerides        220      mg/dL    < 150

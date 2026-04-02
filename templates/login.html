@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='common.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+</head>
+<body>
+
+<div class="login-wrapper">
+    
+    <div class="login-card">
+        <h2>🔐 Welcome Back</h2>
+        <p class="subtitle">Login to continue</p>
+
+        <form method="POST">
+            <div class="input-group">
+                <input type="text" name="phone" required pattern="[0-9]{10}" maxlength="10">
+                <label>Phone Number</label>
+            </div>
+
+            <div class="input-group">
+                <input type="password" name="password" required pattern="[0-9]{4}" maxlength="4">
+                <label>4 Digit Passcode</label>       
+            </div>
+
+
+            <button type="submit">Login</button>
+        </form>
+
+        <div class="footer">
+            <a href="/register">Create new account</a>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

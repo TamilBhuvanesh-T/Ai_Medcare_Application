@@ -1,0 +1,370 @@
+:root {
+    --bg: #f5f0e8;
+    --panel: #fffdf7;
+    --panel-strong: #efe2d0;
+    --ink: #1f2a30;
+    --muted: #5f6d73;
+    --accent: #0f6c7c;
+    --accent-dark: #0b4f59;
+    --danger: #af3b3b;
+    --warn: #a2651a;
+    --success: #2f7f5f;
+    --line: #dfd4c4;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Georgia, "Segoe UI", serif;
+    color: var(--ink);
+    background:
+        radial-gradient(circle at top left, rgba(15, 108, 124, 0.12), transparent 24%),
+        linear-gradient(180deg, #f9f6ef 0%, #efe5d8 100%);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.shell {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+}
+
+.brand-panel {
+    padding: 32px;
+    background: linear-gradient(180deg, #123640, #0b2027);
+    color: #f3ede4;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.brand-panel h1,
+.main-panel h2,
+.main-panel h3 {
+    margin: 0;
+    font-weight: 700;
+}
+
+.lede,
+.muted {
+    color: var(--muted);
+}
+
+.brand-panel .lede {
+    color: rgba(243, 237, 228, 0.8);
+}
+
+.brand-card {
+    padding: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.main-panel {
+    padding: 28px;
+}
+
+.eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.74rem;
+    color: var(--accent);
+    margin: 0 0 8px;
+}
+
+.flash-stack {
+    display: grid;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.flash {
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+}
+
+.flash-error { border-color: rgba(175, 59, 59, 0.35); }
+.flash-success { border-color: rgba(47, 127, 95, 0.35); }
+
+.auth-card,
+.panel {
+    background: rgba(255, 253, 247, 0.92);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 16px 40px rgba(46, 41, 34, 0.06);
+}
+
+.topbar,
+.section-title,
+.metric-grid,
+.tabs,
+.grid,
+.timeline-item,
+.queue-row,
+.patient-row,
+.topbar-actions,
+.timeline-meta,
+.chat-stack {
+    display: flex;
+}
+
+.topbar,
+.section-title,
+.queue-row,
+.patient-row,
+.timeline-item {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.topbar {
+    margin-bottom: 18px;
+}
+
+.topbar-actions,
+.timeline-meta {
+    gap: 10px;
+    align-items: center;
+}
+
+.tabs {
+    gap: 10px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+}
+
+.tab,
+.badge,
+.btn {
+    border-radius: 999px;
+}
+
+.tab {
+    padding: 10px 16px;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid var(--line);
+}
+
+.tab.active {
+    background: var(--accent);
+    color: white;
+}
+
+.grid {
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.two-up > * {
+    flex: 1 1 420px;
+}
+
+.assistant-layout > :first-child {
+    flex: 1.3 1 520px;
+}
+
+.assistant-layout > :last-child,
+.admin-layout > * {
+    flex: 1 1 380px;
+}
+
+.section-title {
+    margin-bottom: 14px;
+}
+
+.form-grid {
+    display: grid;
+    gap: 14px;
+}
+
+label span {
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    background: white;
+    font: inherit;
+}
+
+.btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 11px 18px;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    color: white;
+}
+
+.btn-secondary {
+    background: var(--panel-strong);
+    color: var(--ink);
+    border: 1px solid var(--line);
+}
+
+.metric-grid {
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.metric-card {
+    flex: 1 1 140px;
+    padding: 16px;
+    border-radius: 18px;
+    background: linear-gradient(180deg, #fff, #f3ece1);
+    border: 1px solid var(--line);
+}
+
+.metric-card span {
+    display: block;
+    font-size: 0.86rem;
+    color: var(--muted);
+}
+
+.metric-card strong {
+    font-size: 1.6rem;
+}
+
+.soft-card,
+.list-card {
+    padding: 14px;
+    background: #fcf8f2;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    margin-top: 12px;
+}
+
+.list-card {
+    margin-top: 10px;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 12px;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    vertical-align: middle;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    background: #efe6d8;
+    border: 1px solid var(--line);
+    font-size: 0.8rem;
+}
+
+.badge-high,
+.badge-urgent {
+    background: rgba(175, 59, 59, 0.12);
+    color: var(--danger);
+}
+
+.badge-moderate,
+.badge-borderline {
+    background: rgba(162, 101, 26, 0.13);
+    color: var(--warn);
+}
+
+.badge-low,
+.badge-normal,
+.badge-completed {
+    background: rgba(47, 127, 95, 0.13);
+    color: var(--success);
+}
+
+.timeline-item,
+.queue-row,
+.patient-row {
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.chat-stack {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.chat-item {
+    padding: 14px 16px;
+    border-radius: 18px;
+    max-width: 90%;
+}
+
+.chat-item.user {
+    background: linear-gradient(135deg, #dceff3, #eff7f7);
+    align-self: flex-end;
+}
+
+.chat-item.bot {
+    background: #f7f0e6;
+    align-self: flex-start;
+}
+
+.inline-form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.text-link {
+    display: inline-block;
+    margin-top: 12px;
+    color: var(--accent);
+}
+
+code {
+    background: #f0e7d8;
+    padding: 2px 6px;
+    border-radius: 6px;
+}
+
+@media (max-width: 960px) {
+    .shell {
+        grid-template-columns: 1fr;
+    }
+
+    .brand-panel {
+        min-height: 220px;
+    }
+
+    .main-panel {
+        padding: 16px;
+    }
+}
